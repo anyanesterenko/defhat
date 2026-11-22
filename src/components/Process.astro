@@ -1,0 +1,101 @@
+---
+import SectionHead from './SectionHead.astro';
+import { MARK_VIEWBOX, MARK_CREST, MARK_DOME } from '../brand';
+import { t, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const d = t(Astro.props.lang).process;
+const last = d.steps.length - 1;
+---
+<section id="process" class="section section--dark sheet sheet--deep process" aria-labelledby="process-title" data-index="03">
+  <div class="process__grid" aria-hidden="true"></div>
+  <div class="container">
+    <SectionHead index={3} label={d.eyebrow} title={d.title} id="process-title" />
+
+    <ol class="steps" data-steps>
+      {d.steps.map((s, i) => (
+        <li class="step reveal" style={`--d:${i * 120}ms; --i:${i}`}>
+          <div class="step__marker" aria-hidden="true">
+            {i === last ? (
+              <svg class="step__helmet" viewBox={MARK_VIEWBOX}><path d={MARK_CREST} class="crest" /><path d={MARK_DOME} /></svg>
+            ) : (
+              <svg class="step__crest" viewBox="60 0 66 140"><path d={MARK_CREST} /></svg>
+            )}
+          </div>
+          <span class="step__num mono">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process { overflow: hidden; }
+  .process__grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: calc(100% / 10) 100%;
+  }
+  .process .container { position: relative; }
+
+  .steps {
+    position: relative;
+    margin-top: clamp(64px, 8vw, 104px);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 28px;
+  }
+  .steps::before,
+  .steps::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30px;
+    height: 1px;
+    background: var(--line-dark-2);
+  }
+  .steps::after {
+    background: var(--spectrum);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 2.2s var(--ease) 0.3s;
+  }
+  .steps.is-visible::after { transform: scaleX(1); }
+
+  .step { position: relative; }
+  .step__marker { position: relative; z-index: 1; height: 60px; display: flex; align-items: center; }
+  .step__crest { width: 16px; height: 32px; fill: var(--graphite); stroke: var(--copper); stroke-width: 6; transition: fill 0.5s; transition-delay: calc(0.6s + var(--i) * 0.35s); }
+  .steps.is-visible .step__crest { fill: var(--copper); }
+  .step__helmet { width: 32px; height: 58px; fill: var(--royal-2); padding: 0; background: var(--graphite); box-shadow: 0 0 0 8px var(--graphite); transition: fill 0.6s; transition-delay: 2.2s; }
+  .step__helmet .crest { fill: var(--copper); }
+  .steps.is-visible .step__helmet { fill: var(--sand); }
+  .step__num { display: block; margin-top: 28px; color: var(--copper); }
+  .step h3 { margin-top: 12px; font-size: 22px; font-weight: 400; letter-spacing: -0.02em; color: #fff; }
+  .step p { margin-top: 10px; font-size: 15px; color: var(--muted-on-dark); }
+
+  @media (max-width: 1000px) {
+    .steps { grid-template-columns: 1fr; gap: 0; }
+    .steps::before,
+    .steps::after { left: 15px; right: auto; top: 0; bottom: 30px; width: 1px; height: auto; }
+    .steps::after { transform: scaleY(0); transform-origin: top; background: var(--spectrum); }
+    .steps.is-visible::after { transform: scaleY(1); }
+    .step { display: grid; grid-template-columns: 32px 1fr; column-gap: 24px; padding-bottom: 36px; }
+    .step:last-child { padding-bottom: 0; }
+    .step__marker { grid-row: span 3; height: auto; align-items: flex-start; justify-content: center; }
+    .step__crest { background: var(--graphite); box-shadow: 0 0 0 6px var(--graphite); }
+    .step__num { margin-top: 2px; }
+  }
+</style>
+
+<script>
+  const steps = document.querySelector('[data-steps]');
+  if (steps) {
+    new IntersectionObserver((entries, obs) => {
+      if (entries[0].isIntersecting) { steps.classList.add('is-visible'); obs.disconnect(); }
+    }, { threshold: 0.3 }).observe(steps);
+  }
+</script>

@@ -1,0 +1,183 @@
+---
+import SectionHead from './SectionHead.astro';
+import { t, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const d = t(Astro.props.lang).about;
+
+// Плавна траса з трьома «шпильками», як на зображенні блоку «Підхід».
+// Вузли лежать точно в кінцях сегментів кривої: x = 200 / 600 / 1000.
+const PATH = 'M-20 150 C 80 150 120 104 200 104 S 420 176 600 150 S 860 52 1000 66 S 1160 128 1220 112';
+const nodes = [
+  { x: 200, y: 104, tone: 'teal' },
+  { x: 600, y: 150, tone: 'royal' },
+  { x: 1000, y: 66, tone: 'copper' },
+];
+---
+<section id="about" class="section sheet about-sec" aria-labelledby="about-title" data-index="01" data-about>
+  <div class="about__aura" aria-hidden="true"></div>
+  <div class="container">
+    <div class="about">
+      <div class="about__head">
+        <SectionHead index={1} label={d.eyebrow} title={d.title} id="about-title" />
+      </div>
+      <div class="about__body">
+        {d.paragraphs.map((p, i) => <p class="reveal" style={`--d:${120 + i * 70}ms`}>{p}</p>)}
+      </div>
+    </div>
+
+    <div class="route">
+      <svg class="route__svg" viewBox="0 0 1200 230" aria-hidden="true">
+        <defs>
+          <linearGradient id="route-grad" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#b1b1b3" />
+            <stop offset="0.5" stop-color="#1c2590" />
+            <stop offset="1" stop-color="#000978" />
+          </linearGradient>
+        </defs>
+        <path class="route__base" d={PATH} />
+        <path class="route__line" d={PATH} pathLength="1" />
+        <path class="route__dots" d={PATH} />
+        {nodes.map((n, i) => (
+          <g class={`node node--${n.tone}`} style={`--i:${i}`} transform={`translate(${n.x} ${n.y})`}>
+            {[46, 32, 19].map((r) => <ellipse class="node__ring" rx={r} ry={r * 0.32} />)}
+            <line class="node__pin" x1="0" y1="0" x2="0" y2="-62" />
+            <circle class="node__head" cy="-64" r="4" />
+            <circle class="node__glow" r="12" />
+            <circle class="node__core" r="4.5" />
+          </g>
+        ))}
+      </svg>
+
+      <ul class="route__points">
+        {d.points.map((p, i) => (
+          <li class={`point point--${nodes[i].tone} reveal`} style={`--d:${300 + i * 140}ms`}>
+            <span class="point__num mono">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-sec { overflow: hidden; }
+  .about__aura {
+    position: absolute;
+    z-index: -1;
+    right: -12%;
+    top: -30%;
+    width: 60vw;
+    height: 60vw;
+    max-width: 820px;
+    max-height: 820px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(169, 173, 214, 0.18), rgba(0, 9, 120, 0.05) 45%, transparent 70%);
+    filter: blur(20px);
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  @keyframes drift { to { transform: translate(-8%, 10%) scale(1.1); } }
+
+  .about {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(40px, 7vw, 120px);
+    align-items: end;
+  }
+  .about__head :global(.display em) { color: var(--royal); font-weight: 400; }
+  .about__body { display: grid; gap: 20px; color: var(--muted); font-size: 17px; }
+  .about__body p:first-child { color: var(--text); font-size: clamp(19px, 1.6vw, 22px); line-height: 1.5; }
+
+  /* Траса */
+  .route { position: relative; margin-top: clamp(56px, 7vw, 96px); }
+  .route__svg { width: 100%; height: auto; overflow: visible; }
+  .route__base { fill: none; stroke: rgba(14, 26, 51, 0.08); stroke-width: 14; stroke-linecap: round; }
+  .route__line {
+    fill: none;
+    stroke: url(#route-grad);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 2.4s var(--ease);
+  }
+  .route__dots {
+    fill: none;
+    stroke: var(--royal);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 0.1 14;
+    opacity: 0;
+    animation: march 1.6s linear infinite;
+    transition: opacity 1s ease 1.6s;
+  }
+  @keyframes march { to { stroke-dashoffset: -14.1; } }
+  .is-visible .route__line { stroke-dashoffset: 0; }
+  .is-visible .route__dots { opacity: 0.55; }
+
+  .node { --c: var(--teal); }
+  .node--royal { --c: var(--royal); }
+  .node--copper { --c: var(--copper); }
+  .node > * { opacity: 0; transition: opacity 0.6s ease, transform 0.8s var(--ease); transition-delay: calc(0.6s + var(--i) * 0.45s); }
+  .is-visible .node > * { opacity: 1; }
+  .node__ring, .node__glow { transform-box: fill-box; transform-origin: center; }
+  .node__ring { fill: none; stroke: var(--c); stroke-width: 1; transform: scale(0.4); }
+  .is-visible .node__ring { transform: none; opacity: 0.45; }
+  .node__pin { stroke: var(--c); stroke-width: 1.4; transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(0); }
+  .is-visible .node__pin { transform: none; }
+  .node__head { fill: var(--c); transform: translateY(62px); }
+  .is-visible .node__head { transform: none; }
+  .node__glow { fill: var(--c); filter: blur(6px); }
+  .is-visible .node__glow { opacity: 0.5; animation: pulse-glow 2.6s ease-in-out infinite; animation-delay: calc(var(--i) * -0.8s); }
+  @keyframes pulse-glow { 50% { opacity: 0.12; transform: scale(1.5); } }
+  .node__core { fill: #fff; stroke: var(--c); stroke-width: 2.5; }
+
+  .route__points {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: -8px;
+  }
+  .point { padding-inline: clamp(8px, 3vw, 48px); text-align: center; }
+  .point__num { color: var(--muted); }
+  .point h3 { margin-top: 10px; font-size: clamp(21px, 2vw, 26px); font-weight: 400; letter-spacing: -0.02em; }
+  .point p { margin: 8px auto 0; color: var(--muted); font-size: 16px; max-width: 28ch; }
+  .point--teal .point__num { color: #3c47d8; }
+  .point--royal .point__num { color: var(--royal); }
+  .point--copper .point__num { color: var(--copper-ink); }
+
+  @media (max-width: 900px) {
+    .about { grid-template-columns: 1fr; }
+    .route__svg { display: none; }
+    .route__points {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      margin-top: 0;
+      padding-left: 28px;
+      border-left: 2px dotted rgba(0, 9, 120, 0.35);
+    }
+    .point { position: relative; padding: 0; text-align: left; }
+    .point::before {
+      content: '';
+      position: absolute;
+      left: -37px;
+      top: 2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2.5px solid var(--teal);
+      box-shadow: 0 0 0 6px rgba(124, 134, 255, 0.18);
+    }
+    .point--royal::before { border-color: var(--royal); box-shadow: 0 0 0 6px rgba(42, 53, 214, 0.15); }
+    .point--copper::before { border-color: var(--copper); box-shadow: 0 0 0 6px rgba(169, 173, 214, 0.25); }
+    .point p { margin-left: 0; }
+  }
+</style>
+
+<script>
+  const about = document.querySelector<HTMLElement>('[data-about] .route');
+  if (about) {
+    new IntersectionObserver(([e], o) => { if (e.isIntersecting) { about.classList.add('is-visible'); o.disconnect(); } }, { threshold: 0.35 }).observe(about);
+  }
+</script>

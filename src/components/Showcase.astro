@@ -1,0 +1,226 @@
+---
+import Glyph from './Glyph.astro';
+import { MARK_CREST, MARK_DOME } from '../brand';
+import { t, url, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const d = t(Astro.props.lang).showcase;
+// Ілюстрація: генерується scripts/approach-art.mjs → public/approach-art-*.webp
+const widths = [800, 1280, 1672];
+const srcset = widths.map((w) => `${url(`approach-art-${w}.webp`)} ${w}w`).join(', ');
+const rings = [1.25, 1.55, 1.9, 2.3];
+// центр шолома в координатах MARK_*
+const C = 'translate(91.5 165)';
+const U = 'translate(-91.5 -165)';
+---
+<section class="show sheet" aria-labelledby="show-title" data-show>
+  <!-- Рельєф ліворуч, під текстом -->
+  <figure class="show__media">
+    <img
+      src={url('approach-art-1672.webp')}
+      srcset={srcset}
+      sizes="100vw"
+      width="1672"
+      height="941"
+      alt={d.alt}
+      loading="lazy"
+      decoding="async"
+      data-show-img
+    />
+  </figure>
+
+  <!-- Шолом праворуч: креслення, що «дихає» -->
+  <div class="show__helmet-wrap" aria-hidden="true">
+    <svg class="show__helmet" viewBox="-160 -110 503 550">
+      <defs>
+        <radialGradient id="show-crest-glow">
+          <stop offset="0" stop-color="#c9cce6" stop-opacity="0.55" />
+          <stop offset="1" stop-color="#c9cce6" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="show-halo">
+          <stop offset="0" stop-color="#000978" stop-opacity="0.9" />
+          <stop offset="1" stop-color="#000978" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="show-dome" x1="0" y1="0" x2="0.3" y2="1">
+          <stop offset="0" stop-color="#1c2590" />
+          <stop offset="0.55" stop-color="#000978" />
+          <stop offset="1" stop-color="#05082e" />
+        </linearGradient>
+        <linearGradient id="show-crest" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ecedef" />
+          <stop offset="1" stop-color="#b1b1b3" />
+        </linearGradient>
+        <linearGradient id="show-scan" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity="0" />
+          <stop offset="1" stop-color="#fff" stop-opacity="0.35" />
+        </linearGradient>
+        <clipPath id="show-clip"><path d={MARK_DOME} /><path d={MARK_CREST} /></clipPath>
+      </defs>
+
+      <circle class="halo" cx="91.5" cy="175" r="230" fill="url(#show-halo)" />
+      <g class="rings">
+        {rings.map((s, i) => (
+          <path class="ring" d={MARK_DOME} style={`--i:${i}`} transform={`${C} scale(${s}) ${U}`} />
+        ))}
+      </g>
+      <path class="pulse" d={MARK_DOME} />
+
+      <g class="helmet">
+        <circle class="glow" cx="92" cy="50" r="62" fill="url(#show-crest-glow)" />
+        <path class="fill" d={MARK_DOME} fill="url(#show-dome)" />
+        <path class="fill fill--crest" d={MARK_CREST} fill="url(#show-crest)" />
+        <g clip-path="url(#show-clip)">
+          <rect class="scan" x="0" y="-40" width="190" height="40" fill="url(#show-scan)" />
+        </g>
+        <path class="line" d={MARK_DOME} pathLength="1" />
+        <path class="line line--crest" d={MARK_CREST} pathLength="1" />
+      </g>
+
+      <!-- маленькі орбітальні точки -->
+      <g class="orbit"><circle cx="91.5" cy="-55" r="3" /></g>
+      <g class="orbit orbit--2"><circle cx="91.5" cy="-20" r="2.2" /></g>
+    </svg>
+  </div>
+
+  <div class="container show__content">
+    <p class="show__eyebrow mono reveal"><Glyph />{d.eyebrow}</p>
+    <h2 id="show-title" class="show__title display reveal" style="--d:80ms">{d.title}</h2>
+    <p class="show__text reveal" style="--d:160ms">{d.text}</p>
+  </div>
+</section>
+
+<style>
+  .show {
+    position: relative;
+    min-height: clamp(600px, 92vh, 880px);
+    display: flex;
+    align-items: flex-start;
+    overflow: hidden;
+    color: #fff;
+    background:
+      radial-gradient(ellipse 45% 60% at 76% 50%, rgba(0, 9, 120, 0.3), transparent 70%),
+      var(--navy);
+  }
+
+  /* Рельєф: нижня ліва частина */
+  .show__media { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .show__media img {
+    position: absolute;
+    left: -4%;
+    bottom: -14%;
+    width: 88%;
+    height: auto;
+    max-width: none;
+    will-change: transform;
+    -webkit-mask-image: linear-gradient(180deg, transparent 30%, #000 60%), linear-gradient(90deg, #000 55%, transparent 80%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(180deg, transparent 30%, #000 60%), linear-gradient(90deg, #000 55%, transparent 80%);
+    mask-composite: intersect;
+  }
+
+  /* Шолом праворуч */
+  .show__helmet-wrap {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    right: max(var(--gutter), calc((100% - var(--container)) / 2 + var(--gutter)));
+    width: min(42%, 540px);
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .show__helmet { width: 100%; height: auto; overflow: visible; fill: none; animation: float 7s ease-in-out infinite; }
+  @keyframes float { 50% { transform: translateY(-14px); } }
+
+  .halo { opacity: 0; transition: opacity 1.6s ease 0.4s; }
+  .show.is-visible .halo { opacity: 0.55; }
+
+  .rings { transform-box: view-box; transform-origin: 91.5px 165px; animation: spin 60s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ring {
+    stroke: rgba(169, 173, 214, 0.45);
+    stroke-width: 1;
+    stroke-dasharray: 2 7;
+    vector-effect: non-scaling-stroke;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    transition-delay: calc(0.8s + var(--i) * 160ms);
+  }
+  .show.is-visible .ring { opacity: calc(0.9 - var(--i) * 0.18); }
+
+  .pulse {
+    stroke: rgba(201, 204, 230, 0.55);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+    transform-box: view-box;
+    transform-origin: 91.5px 165px;
+    opacity: 0;
+  }
+  .show.is-visible .pulse { animation: pulse 4.8s cubic-bezier(0.2, 0.6, 0.3, 1) 2.6s infinite; }
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.6); opacity: 0; }
+  }
+
+  .fill { opacity: 0; transition: opacity 1.2s ease 1.6s; }
+  .fill--crest { transition-delay: 2s; }
+  .show.is-visible .fill { opacity: 1; }
+  .line {
+    stroke: rgba(236, 237, 239, 0.85);
+    stroke-width: 1;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 2.4s var(--ease);
+  }
+  .line--crest { transition-delay: 0.5s; }
+  .show.is-visible .line { stroke-dashoffset: 0; }
+
+  .glow { opacity: 0; }
+  .show.is-visible .glow { animation: crest-glow 3.6s ease-in-out 2.4s infinite; }
+  @keyframes crest-glow { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+
+  .scan { opacity: 0; }
+  .show.is-visible .scan { animation: scan 5.5s linear 3s infinite; }
+  @keyframes scan {
+    0% { transform: translateY(0); opacity: 0; }
+    10%, 85% { opacity: 1; }
+    100% { transform: translateY(370px); opacity: 0; }
+  }
+
+  .orbit { transform-box: view-box; transform-origin: 91.5px 165px; animation: spin 16s linear infinite; opacity: 0; transition: opacity 1s ease 2.6s; }
+  .orbit circle { fill: #ecedef; }
+  .orbit--2 { animation-duration: 24s; animation-direction: reverse; }
+  .orbit--2 circle { fill: var(--copper); }
+  .show.is-visible .orbit { opacity: 1; }
+
+  .show__content { position: relative; z-index: 2; padding-block: clamp(88px, 10vw, 140px) 0; }
+  .show__eyebrow { display: flex; align-items: center; gap: 12px; color: var(--brand-gray); }
+  .show__title { margin-top: 24px; font-size: clamp(32px, 3.9vw, 58px); max-width: 12ch; }
+  .show__text { margin-top: 24px; max-width: 38ch; color: rgba(245, 246, 248, 0.8); font-size: 18px; }
+
+  @media (max-width: 900px) {
+    .show { flex-direction: column; min-height: 0; }
+    .show__helmet-wrap { position: relative; top: auto; right: auto; transform: none; width: 64%; margin: 56px auto 0; order: -1; }
+    .show__content { padding-block: 24px 220px; }
+    .show__media img { width: 160%; left: -30%; }
+  }
+</style>
+
+<script>
+  const show = document.querySelector<HTMLElement>('[data-show]');
+  const img = document.querySelector<HTMLElement>('[data-show-img]');
+  if (show) {
+    new IntersectionObserver(([e], o) => { if (e.isIntersecting) { show.classList.add('is-visible'); o.disconnect(); } }, { threshold: 0.25 }).observe(show);
+  }
+  if (show && img && !matchMedia('(prefers-reduced-motion: reduce)').matches && matchMedia('(min-width: 901px)').matches) {
+    let raf = 0;
+    const move = () => {
+      raf = 0;
+      const r = show.getBoundingClientRect();
+      const p = (r.top + r.height / 2 - innerHeight / 2) / (innerHeight + r.height);
+      img.style.transform = `translateY(${p * -8}%)`;
+    };
+    move();
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(move); }, { passive: true });
+  }
+</script>

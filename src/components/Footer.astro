@@ -1,0 +1,61 @@
+---
+import Logo from './Logo.astro';
+import LangSwitch from './LangSwitch.astro';
+import { WORD_VIEWBOX, WORD_PATH } from '../brand';
+import { t, url, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const tel = d.contact.phone.replace(/[^\d+]/g, '');
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <Logo href={url(`${lang}/`)} />
+        <p>{d.footer.tagline}</p>
+      </div>
+      <div class="footer__col">
+        <h2 class="mono">{d.nav.contacts}</h2>
+        <a href={`mailto:${d.contact.email}`}>{d.contact.email}</a>
+        <a href={`tel:${tel}`}>{d.contact.phone}</a>
+      </div>
+      <div class="footer__col">
+        <h2 class="mono">{d.footer.language}</h2>
+        <LangSwitch lang={lang} />
+      </div>
+    </div>
+
+    <svg class="footer__word" viewBox={WORD_VIEWBOX} aria-hidden="true"><path d={WORD_PATH} /></svg>
+
+    <div class="footer__bottom mono">
+      <p>© {year} DefHat. {d.footer.rights}</p>
+      <a href={url(`${lang}/privacy/`)}>{d.footer.privacy}</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--black); color: var(--text-on-dark); padding: clamp(64px, 8vw, 104px) 0 28px; border-top: 1px solid var(--line-dark); }
+  .footer__top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; }
+  .footer__brand p { margin-top: 20px; max-width: 36ch; color: var(--muted-on-dark); font-size: 15.5px; }
+  .footer__col { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .footer__col h2 { margin-bottom: 8px; color: var(--muted-on-dark); }
+  .footer__col > a { font-size: 16px; font-weight: 300; transition: color 0.2s; }
+  .footer__col > a:hover { color: var(--copper-2); }
+  .footer__word {
+    width: 100%;
+    height: auto;
+    margin-top: clamp(56px, 8vw, 104px);
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.16);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+    transition: fill 0.8s, stroke 0.8s;
+  }
+  .footer__word:hover { fill: rgba(0, 9, 120, 0.5); stroke: rgba(169, 173, 214, 0.7); }
+  .footer__bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line-dark); color: var(--muted-on-dark); font-size: 10.5px; }
+  .footer__bottom a:hover { color: #fff; }
+  @media (max-width: 760px) { .footer__top { grid-template-columns: 1fr; } }
+</style>

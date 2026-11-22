@@ -1,0 +1,255 @@
+{
+  "meta": {
+    "title": "DefHat — Technology, Engineering & Integration",
+    "description": "DefHat combines technical expertise, technology sourcing and supply, solution development and integration for complex technical challenges.",
+    "ogAlt": "DefHat — Technology, Engineering & Integration"
+  },
+  "nav": {
+    "about": "About",
+    "expertise": "Expertise",
+    "process": "How we work",
+    "tasks": "Task types",
+    "contacts": "Contacts",
+    "cta": "Contact us",
+    "menu": "Menu",
+    "close": "Close menu",
+    "skip": "Skip to content"
+  },
+  "hero": {
+    "eyebrow": "Engineering partner for technical challenges",
+    "title": "Technology, engineering and integration for <em>complex technical challenges</em>",
+    "subtitle": "DefHat turns a technical request into a working solution: we analyse requirements, source and supply technology, develop and integrate systems, and support them after launch.",
+    "primary": "Discuss your task",
+    "secondary": "Our expertise",
+    "diagramLabel": "Diagram: a request flows through engineering, data, communications and supply into an integrated solution",
+    "nodes": [
+      "Engineering",
+      "Data & AI",
+      "Comms",
+      "Supply"
+    ],
+    "core": "Solution",
+    "scroll": "Scroll",
+    "drawing": "Drawing DH-01"
+  },
+  "about": {
+    "eyebrow": "About",
+    "title": "An engineering team that takes technical challenges <em>all the way to results</em>",
+    "paragraphs": [
+      "DefHat is a technology company working at the intersection of engineering, IT and supply. We take on complex technical requests — from requirements analysis and technology sourcing to development, integration and ongoing support.",
+      "Our team combines expertise in hardware and software development, data processing and artificial intelligence, communications, positioning and measurement systems, as well as international technology trade and logistics.",
+      "For our clients this means one accountable partner instead of several contractors: fewer hand-offs, transparent stages and a solution that works in your environment — not just on paper."
+    ],
+    "points": [
+      {
+        "title": "One partner",
+        "text": "From request to support — with no gaps between stages."
+      },
+      {
+        "title": "Engineering-led",
+        "text": "Solutions grounded in requirements, testing and measurement."
+      },
+      {
+        "title": "Flexible",
+        "text": "Off-the-shelf technology or custom development for your task."
+      }
+    ]
+  },
+  "showcase": {
+    "eyebrow": "Approach",
+    "title": "Precision at the component level. Integrity at the system level.",
+    "text": "We work with technology from a single board to an integrated system — checking, measuring and testing before a solution is handed over.",
+    "alt": "Abstract flowing form of blue, teal, sand and orange layers with marker points linked by a dotted line"
+  },
+  "expertise": {
+    "eyebrow": "Areas of expertise",
+    "title": "Four areas that work as one",
+    "lead": "Click a card to see the competencies each area covers and the requests we handle.",
+    "more": "Learn more",
+    "less": "Collapse",
+    "labels": {
+      "competencies": "Competencies",
+      "requests": "Typical requests",
+      "support": "Support"
+    },
+    "items": [
+      {
+        "icon": "engineering",
+        "title": "Engineering & Development",
+        "intro": "Design, prototyping and development of hardware and software solutions to specific technical requirements.",
+        "competencies": [
+          "Systems design and architecture",
+          "Electronics and embedded systems",
+          "Prototyping and small-batch production"
+        ],
+        "requests": [
+          "Developing a solution to a technical specification",
+          "Upgrading or modernising existing systems",
+          "Assessing the technical feasibility of an idea"
+        ],
+        "support": "We guide the work from concept and prototype through testing and documentation handover."
+      },
+      {
+        "icon": "data",
+        "title": "IT, AI & Data Processing",
+        "intro": "Software systems, data processing and analytics, and applied machine learning.",
+        "competencies": [
+          "Software and service development",
+          "Data collection, processing and visualisation",
+          "Machine learning and computer vision models"
+        ],
+        "requests": [
+          "Automating data processing from multiple sources",
+          "Analytics dashboards and monitoring tools",
+          "Embedding AI components into existing workflows"
+        ],
+        "support": "We help choose the architecture, build the solution and keep it running."
+      },
+      {
+        "icon": "signal",
+        "title": "Communications, Positioning & Measurement",
+        "intro": "Data transmission, navigation, precise positioning and measurement technologies.",
+        "competencies": [
+          "Radio communications and data links",
+          "Navigation and positioning systems",
+          "Measurement equipment and calibration"
+        ],
+        "requests": [
+          "Establishing a reliable data link",
+          "Improving positioning accuracy",
+          "Selecting and configuring measurement tools"
+        ],
+        "support": "We analyse operating conditions, select equipment and run on-site testing."
+      },
+      {
+        "icon": "supply",
+        "title": "Technology Trade, Supply & Integration",
+        "intro": "Sourcing, procurement and supply of technologies and components, followed by integration.",
+        "competencies": [
+          "Finding and evaluating manufacturers and components",
+          "International procurement and logistics",
+          "Integrating equipment into existing infrastructure"
+        ],
+        "requests": [
+          "Matching a solution to budget and specification",
+          "Supplying components and parts",
+          "Commissioning and configuring delivered equipment"
+        ],
+        "support": "We own the chain from supplier selection to putting the solution into operation."
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "How we work",
+    "title": "A transparent process from request to support",
+    "steps": [
+      {
+        "title": "Request",
+        "text": "We discuss the task, conditions and constraints, and capture technical requirements."
+      },
+      {
+        "title": "Selection or development",
+        "text": "We propose an existing solution or develop one to your requirements."
+      },
+      {
+        "title": "Supply",
+        "text": "We organise procurement, manufacturing and delivery of components."
+      },
+      {
+        "title": "Integration",
+        "text": "We install, configure and test the solution in your environment."
+      },
+      {
+        "title": "Technical support",
+        "text": "We maintain, update and scale the system after launch."
+      }
+    ]
+  },
+  "tasks": {
+    "eyebrow": "Task types",
+    "title": "What clients come to us with",
+    "items": [
+      {
+        "title": "Technology to specification",
+        "text": "Market research, comparison of options and a recommended solution."
+      },
+      {
+        "title": "Custom development",
+        "text": "Building a hardware or software solution when nothing off-the-shelf fits."
+      },
+      {
+        "title": "Systems integration",
+        "text": "Bringing hardware, software and data together into one working system."
+      },
+      {
+        "title": "Working with data",
+        "text": "Collecting, processing, analysing and visualising technical data."
+      },
+      {
+        "title": "Comms & measurement",
+        "text": "Setting up data links, positioning and measurement."
+      },
+      {
+        "title": "Component supply",
+        "text": "Sourcing, procurement and logistics for technology and parts."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Contacts",
+    "title": "Tell us about your task",
+    "lead": "Describe your request in a few sentences — we’ll reply within one business day with proposed next steps.",
+    "email": "office@defhat.org",
+    "phone": "+380 98 713 95 28",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "form": {
+      "name": "Name",
+      "email": "Work email",
+      "company": "Company",
+      "optional": "optional",
+      "message": "Short description of your request",
+      "messagePlaceholder": "What needs to be done, timeline, any constraints…",
+      "submit": "Send request",
+      "sending": "Sending…",
+      "consent": "By submitting the form you agree to our",
+      "privacy": "privacy policy",
+      "success": "Thank you! Your request has been sent — we’ll be in touch shortly.",
+      "error": "We couldn’t send your request. Please try again or email us directly.",
+      "errors": {
+        "required": "Please fill in this field",
+        "email": "Please enter a valid email",
+        "short": "Please add a bit more detail (10+ characters)"
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Technology, engineering and integration for complex technical challenges.",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy policy",
+    "language": "Language"
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "back": "Back to home",
+    "updated": "Updated: November 2026",
+    "sections": [
+      {
+        "title": "What we collect",
+        "text": "Through the contact form we receive your name, work email, company name (optional) and the text of your request. We do not use analytics or advertising cookies."
+      },
+      {
+        "title": "Why",
+        "text": "The data is used solely to respond to your request and for related follow-up communication."
+      },
+      {
+        "title": "Storage and sharing",
+        "text": "We do not sell or share your data with third parties, except the form delivery service acting on our behalf."
+      },
+      {
+        "title": "Your rights",
+        "text": "You can request access to, correction or deletion of your data by writing to our contact address."
+      }
+    ]
+  }
+}

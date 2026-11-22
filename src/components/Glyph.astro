@@ -1,0 +1,11 @@
+---
+// Т-подібний візор шолома — наскрізний знак-маркер для секцій.
+interface Props { class?: string }
+const { class: cls } = Astro.props;
+---
+<svg class:list={['glyph', cls]} viewBox="36 180 110 143" aria-hidden="true">
+  <path d="M39 183.5Q91.25 208 143.5 183.5V200L106.5 220L103.5 320.5H78.5L75 220L39 200Z" />
+</svg>
+<style>
+  .glyph { width: 11px; height: 14px; fill: var(--copper); flex: none; }
+</style>

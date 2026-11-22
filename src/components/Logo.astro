@@ -1,0 +1,23 @@
+---
+import { MARK_VIEWBOX, MARK_CREST, MARK_DOME, WORD_VIEWBOX, WORD_PATH } from '../brand';
+interface Props { href: string; class?: string }
+const { href, class: cls } = Astro.props;
+---
+<a href={href} class:list={['logo', cls]} aria-label="DefHat">
+  <svg class="logo__mark" viewBox={MARK_VIEWBOX} aria-hidden="true">
+    <path d={MARK_CREST} class="logo__crest" />
+    <path d={MARK_DOME} />
+  </svg>
+  <svg class="logo__word" viewBox={WORD_VIEWBOX} aria-hidden="true">
+    <path d={WORD_PATH} />
+  </svg>
+</a>
+
+<style>
+  .logo { display: inline-flex; align-items: center; gap: 12px; color: currentColor; }
+  .logo svg { fill: currentColor; }
+  .logo__mark { height: 36px; width: auto; }
+  .logo__word { height: 14px; width: auto; }
+  .logo__crest { transition: fill 0.3s, transform 0.4s var(--ease); transform-origin: 50% 40%; }
+  .logo:hover .logo__crest { fill: var(--copper); }
+</style>

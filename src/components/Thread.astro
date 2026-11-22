@@ -1,0 +1,63 @@
+---
+// «Червона нитка»: вертикальна шкала прогресу з гребенем шолома, що рухається зі скролом.
+---
+<div class="thread" aria-hidden="true" data-thread>
+  <div class="thread__track"><div class="thread__fill" data-thread-fill></div></div>
+  <div class="thread__marker" data-thread-marker>
+    <svg viewBox="60 0 66 140"><path d="M66.5 11Q92.5 1 118 11L104.5 134.5H82.5Z" /></svg>
+    <span class="mono" data-thread-label>00</span>
+  </div>
+</div>
+
+<style>
+  .thread {
+    position: fixed;
+    left: max(14px, calc((100vw - 1440px) / 2));
+    top: calc(var(--header-h) + 24px);
+    bottom: 24px;
+    width: 24px;
+    z-index: 40;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    color: #fff;
+  }
+  .thread__track { position: absolute; left: 11px; top: 0; bottom: 0; width: 1px; background: rgba(255, 255, 255, 0.22); }
+  .thread__fill { position: absolute; inset: 0; background: #fff; transform-origin: top; transform: scaleY(0); }
+  .thread__marker {
+    position: absolute;
+    left: 5px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    will-change: transform;
+  }
+  .thread__marker svg { width: 13px; height: 26px; fill: #fff; }
+  .thread__marker span { font-size: 10px; }
+  @media (max-width: 1360px) { .thread { display: none; } }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-thread]');
+  if (root) {
+    const fill = root.querySelector<HTMLElement>('[data-thread-fill]')!;
+    const marker = root.querySelector<HTMLElement>('[data-thread-marker]')!;
+    const label = root.querySelector<HTMLElement>('[data-thread-label]')!;
+    const sections = [...document.querySelectorAll<HTMLElement>('[data-index]')];
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const max = document.documentElement.scrollHeight - innerHeight;
+      const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+      const h = root.clientHeight - 26;
+      fill.style.transform = `scaleY(${p})`;
+      marker.style.transform = `translateY(${p * h}px)`;
+      let cur = '00';
+      for (const s of sections) if (s.getBoundingClientRect().top < innerHeight * 0.5) cur = s.dataset.index!;
+      label.textContent = cur;
+    };
+    update();
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+    addEventListener('resize', update);
+  }
+</script>

@@ -1,0 +1,26 @@
+---
+import Glyph from './Glyph.astro';
+interface Props { index: number; total?: number; label: string; title: string; lead?: string; id?: string }
+const { index, total = 5, label, title, lead, id } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<header class="shead">
+  <div class="shead__bar mono reveal">
+    <Glyph />
+    <span class="shead__idx">{pad(index)}<span>/{pad(total)}</span></span>
+    <span class="shead__label">{label}</span>
+    <span class="shead__rule" aria-hidden="true"></span>
+  </div>
+  <h2 id={id} class="h2 display reveal" style="--d:80ms" set:html={title} />
+  {lead && <p class="lead reveal" style="--d:140ms">{lead}</p>}
+</header>
+
+<style>
+  .shead__bar { display: flex; align-items: center; gap: 14px; color: var(--muted); }
+  :global(.section--dark) .shead__bar { color: var(--muted-on-dark); }
+  .shead__idx { color: var(--copper-ink); }
+  :global(.section--dark) .shead__idx { color: var(--copper); }
+  .shead__idx span { opacity: 0.5; }
+  .shead__rule { flex: 1; height: 1px; background: currentColor; opacity: 0.25; transform-origin: left; transform: scaleX(0); transition: transform 1.4s var(--ease) 0.2s; }
+  .is-visible .shead__rule { transform: scaleX(1); }
+</style>
